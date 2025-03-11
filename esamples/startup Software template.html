@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectPro Desktop - Professional Remote Access Solution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #e74c3c;
+    --secondary-color: #333;
+    --light-bg: #fff;
+    --dark-bg: #1a1a1a;
+    --light-text: #333;
+    --dark-text: #f5f5f5;
+    --border-color: #e1e1e1;
+    --hover-color: #c0392b;
+    --light-accent: #f8f9fa;
+    --dark-accent: #2c2c2c;
+    --gradient-start: #1a1a2e;
+    --gradient-end: #30122e;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--light-text);
+    background-color: var(--light-bg);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+    color: var(--dark-text);
+    background-color: var(--dark-bg);
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Header styles */
+header {
+    background-color: var(--light-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background-color 0.3s;
+}
+
+.dark-mode header {
+    background-color: var(--dark-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dark-mode .header-container {
+    border-bottom: 1px solid #444;
+}
+
+.mode-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-switch label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 20px;
+    transition: .4s;
+}
+
+.toggle-switch label:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .4s;
+}
+
+.toggle-switch input:checked + label {
+    background-color: #2196F3;
+}
+
+.toggle-switch input:checked + label:before {
+    transform: translateX(20px);
+}
+
+.contact-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.phone-link {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.portal-link {
+    font-weight: 500;
+}
+
+.language-selector {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.main-nav ul {
+    display: flex;
+    gap: 30px;
+}
+
+.main-nav li {
+    position: relative;
+}
+
+.main-nav a {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.main-nav a:hover {
+    color: var(--primary-color);
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.btn-lg {
+    padding: 14px 28px;
+    font-size: 1.1rem;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--hover-color);
+    border-color: var(--hover-color);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--light-text);
+    border: 1px solid var(--border-color);
+}
+
+.dark-mode .btn-outline {
+    color: var(--dark-text);
+    border: 1px solid #444;
+}
+
+.btn-outline:hover {
+    background-color: var(--light-accent);
+}
+
+.dark-mode .btn-outline:hover {
+    background-color: var(--dark-accent);
+}
+
+/* Product Hero Section */
+.product-hero {
+    padding: 80px 0;
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-hero .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.product-hero-content {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+}
+
+.product-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(231, 76, 60, 0.2);
+    color: var(--primary-color);
+    padding: 8px 16px;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.product-badge i {
+    margin-right: 8px;
+}
+
+.product-hero h1 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.product-hero .highlight {
+    color: var(--primary-color);
+    position: relative;
+}
+
+.product-hero .highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: rgba(231, 76, 60, 0.3);
+    z-index: -1;
+}
+
+.product-tagline {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    max-width: 600px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.product-cta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.product-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.meta-item i {
+    color: var(--primary-color);
+    margin-right: 8px;
+}
+
+.product-hero-image {
+    flex: 1;
+    position: relative;
+}
+
+.main-product-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.floating-element {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 3;
+}
+
+.fe-1 {
+    top: 20px;
+    left: -20px;
+    animation: float 6s ease-in-out infinite;
+}
+
+.fe-2 {
+    bottom: 40px;
+    left: 30px;
+    animation: float 8s ease-in-out infinite 1s;
+}
+
+.fe-3 {
+    top: 40px;
+    right: -20px;
+    animation: float 7s ease-in-out infinite 0.5s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* Section Styles */
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--light-text);
+}
+
+.dark-mode .section-header h2 {
+    color: var(--dark-text);
+}
+
+.section-header p {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.dark-mode .section-header p {
+    color: #aaa;
+}
+
+/* Key Features Section */
+.key-features {
+    padding: 100px 0;
+    background-color: var(--light-bg);
+}
+
+.dark-mode .key-features {
+    background-color: var(--dark-bg);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.feature-item {
+    padding: 30px;
+    border-radius: 10px;
+    background-color: var(--light-accent);
+    transition: all 0.3s ease;
+}
+
+.dark-mode .feature-item {
+    background-color: var(--dark-accent);
+}
+
+.feature-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .feature-item:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: white;
+    font-size: 1.8rem;
+}
+
+.feature-item h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--light-text);
+}
+
+.dark-mode .feature-item h3 {
+    color: var(--dark-text);
+}
+
+.feature-item p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.dark-mode .feature-item p {
+    color: #aaa;
+}
+
+/* How It Works Section */
+.how-it-works {
+    padding: 100px 0;
+    background-color: var(--light-accent);
+}
+
+.dark-mode .how-it-works {
+    background-color: #222;
+}
+
+.steps-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.step:last-child {
+    margin-bottom: 0;
+}
+
+.step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 70px;
+    left: 30px;
+    height: calc(100% - 30px);
+    width: 2px;
+    background-color: var(--primary-color);
+    opacity: 0.3;
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 30px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--light-text);
+}
+
+.dark-mode .step-content h3 {
+    color: var(--dark-text);
+}
+
+.step-content p {
+    color: #666;
+}
+
+.dark-mode .step-content p {
+    color: #aaa;
+}
+
+.step-icon {
+    margin-left: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+/* Testimonials Section */
+.testimonials {
+    padding: 100px 0;
+    background-color: var(--light-bg);
+}
+
+.dark-mode .testimonials {
+    background-color: var(--dark-bg);
+}
+
+.testimonials-slider {
+    display: flex;
+    gap: 30px;
+    overflow-x: hidden;
+    margin-bottom: 30px;
+}
+
+.testimonial-card {
+    flex: 0 0 100%;
+    background-color: var(--light-accent);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode .testimonial-card {
+    background-color: var(--dark-accent);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial-content {
+    margin-bottom: 20px;
+    font-style: italic;
+    color: #555;
+    position: relative;
+}
+
+.dark-mode .testimonial-content {
+    color: #bbb;
+}
+
+.testimonial-content::before {
+    content: '"';
+    font-size: 5rem;
+    color: rgba(231, 76, 60, 0.1);
+    position: absolute;
+    top: -40px;
+    left: -20px;
+    font-family: Georgia, serif;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+}
+
+.author-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+.author-info h4 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: var(--light-text);
+}
+
+.dark-mode .author-info h4 {
+    color: var(--dark-text);
+}
+
+.author-info p {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.dark-mode .author-info p {
+    color: #999;
+}
+
+.testimonial-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.control-prev, .control-next {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1px solid #ddd;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.dark-mode .control-prev, .dark-mode .control-next {
+    border-color: #444;
+    color: #aaa;
+}
+
+.control-prev:hover, .control-next:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.control-indicators {
+    display: flex;
+    gap: 8px;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ddd;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.dark-mode .indicator {
+    background-color: #444;
+}
+
+.indicator.active {
+    background-color: var(--primary-color);
+    transform: scale(1.2);
+}
+
+/* Pricing Section */
+.pricing {
+    padding: 100px 0;
+    background-color: var(--light-accent);
+}
+
+.dark-mode .pricing {
+    background-color: #222;
+}
+
+.pricing-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+    gap: 15px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(30px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.save-badge {
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 20px;
+    margin-left: 5px;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.pricing-card {
+    background-color: var(--light-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.dark-mode .pricing-card {
+    background-color: var(--dark-bg);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .pricing-card:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.pricing-card.popular {
+    border: 2px solid var(--primary-color);
+    transform: scale(1.05);
+}
+
+.pricing-card.popular:hover {
+    transform: scale(1.05) translateY(-10px);
+}
+
+.popular-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.pricing-header {
+    padding: 30px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.dark-mode .pricing-header {
+    border-bottom: 1px solid #333;
+}
+
+.pricing-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--light-text);
+}
+
+.dark-mode .pricing-header h3 {
+    color: var(--dark-text);
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--light-text);
+}
+
+.dark-mode .price {
+    color: var(--dark-text);
+}
+
+.currency {
+    font-size: 1.5rem;
+    vertical-align: top;
+    margin-right: 2px;
+}
+
+.period {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #777;
+}
+
+.dark-mode .period {
+    color: #999;
+}
+
+.pricing-header p {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.dark-mode .pricing-header p {
+    color: #999;
+}
+
+.pricing-features {
+    padding: 30px;
+}
+
+.pricing-features ul {
+    margin-bottom: 30px;
+}
+
+.pricing-features li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    color: var(--light-text);
+}
+
+.dark-mode .pricing-features li {
+    color: var(--dark-text);
+}
+
+.pricing-features li.disabled {
+    color: #999;
+}
+
+.pricing-features li i {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.pricing-features li.disabled i {
+    color: #999;
+}
+
+.pricing-cta {
+    padding: 0 30px 30px;
+}
+
+/* FAQ Section */
+.faq {
+    padding: 100px 0;
+    background-color: var(--light-bg);
+}
+
+.dark-mode .faq {
+    background-color: var(--dark-bg);
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dark-mode .faq-item {
+    border-color: #333;
+}
+
+.faq-question {
+    padding: 20px;
+    background-color: var(--light-accent);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dark-mode .faq-question {
+    background-color: var(--dark-accent);
+}
+
+.faq-question h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: var(--light-text);
+}
+
+.dark-mode .faq-question h3 {
+    color: var(--dark-text);
+}
+
+.faq-icon {
+    color: var(--primary-color);
+}
+
+.faq-answer {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+    padding: 20px;
+    max-height: 1000px;
+}
+
+.faq-answer p {
+    margin: 0;
+    color: #666;
+}
+
+.dark-mode .faq-answer p {
+    color: #aaa;
+}
+
+/* CTA Section */
+.cta-section {
+    padding: 100px 0;
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    color: white;
+    text-align: center;
+}
+
+.cta-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.cta-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Footer */
+footer {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 60px 0 0;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.footer-column {
+    min-width: 200px;
+}
+
+.footer-column h4 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.footer-column h4:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.footer-column ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-column a {
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.footer-column a:hover {
+    opacity: 1;
+}
+
+.copyright {
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.copyright .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s;
+}
+
+.social-links a:hover {
+    background-color: var(--primary-color);
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+    .product-hero .container {
+        flex-direction: column;
+    }
+    
+    .product-hero-content {
+        text-align: center;
+    }
+    
+    .product-cta {
+        justify-content: center;
+    }
+    
+    .product-meta {
+        justify-content: center;
+    }
+    
+    .pricing-card.popular {
+        transform: scale(1);
+    }
+    
+    .pricing-card.popular:hover {
+        transform: translateY(-10px);
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .nav-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .main-nav ul {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .cta-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .product-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .product-tagline {
+        font-size: 1.1rem;
+    }
+    
+    .step {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .step-number {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .step:not(:last-child)::after {
+        display: none;
+    }
+    
+    .step-icon {
+        margin-left: 0;
+        margin-top: 15px;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .product-cta {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .copyright .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Header (Same as main site) -->
+    <header>
+        <div class="container header-container">
+            <div class="mode-toggle">
+                <span class="toggle-switch">
+                    <input type="checkbox" id="mode-toggle">
+                    <label for="mode-toggle"></label>
+                </span>
+                <span class="toggle-text">Light Mode</span>
+            </div>
+            
+            <div class="contact-info">
+                <a href="tel:+18332693375" class="phone-link">
+                    <i class="fas fa-phone-alt"></i> Call Sales: +1 833 269 3375
+                </a>
+                <a href="/portal" class="portal-link">Customer Portal</a>
+                <div class="language-selector">
+                    <span class="current-lang">
+                        <img src="https://via.placeholder.com/16x12" alt="US Flag"> EN
+                    </span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="/">
+                    <svg width="180" height="40" viewBox="0 0 180 40">
+                        <rect x="0" y="10" width="30" height="20" fill="#e74c3c" />
+                        <polygon points="30,10 40,20 30,30" fill="#e74c3c" />
+                        <text x="50" y="28" font-family="Arial" font-weight="bold" font-size="20" fill="#333">ConnectPro</text>
+                    </svg>
+                </a>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li class="dropdown">
+                        <a href="#">Products <i class="fas fa-chevron-down"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Solutions <i class="fas fa-chevron-down"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Resources <i class="fas fa-chevron-down"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Support <i class="fas fa-chevron-down"></i></a>
+                    </li>
+                    <li>
+                        <a href="#">Pricing</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="cta-buttons">
+                <a href="#contact" class="btn btn-primary">Contact Us</a>
+                <a href="#download" class="btn btn-outline">Downloads</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Hero Section -->
+    <section class="product-hero">
+        <div class="container">
+            <div class="product-hero-content">
+                <div class="product-badge">
+                    <i class="fas fa-desktop"></i>
+                    <span>Desktop</span>
+                </div>
+                
+                <h1>Professional Remote Access for <span class="highlight">Every Device</span></h1>
+                
+                <p class="product-tagline">Access your computers from anywhere with enterprise-grade security and unmatched performance.</p>
+                
+                <div class="product-cta">
+                    <a href="#download" class="btn btn-primary btn-lg">
+                        <i class="fas fa-download"></i> Download Now
+                    </a>
+                    <a href="#pricing" class="btn btn-outline btn-lg">View Pricing</a>
+                </div>
+                
+                <div class="product-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Free for personal use</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>End-to-end encryption</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-sync"></i>
+                        <span>Automatic updates</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-hero-image">
+                <img src="https://via.placeholder.com/700x500" alt="ConnectPro Desktop Interface" class="main-product-image">
+                <div class="floating-element fe-1">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="floating-element fe-2">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="floating-element fe-3">
+                    <i class="fas fa-cog"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section class="key-features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Powerful Features for Seamless Remote Access</h2>
+                <p>ConnectPro Desktop provides all the tools you need for secure and efficient remote connections.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3>High Performance</h3>
+                    <p>Experience lag-free connections with our optimized streaming technology, even on low-bandwidth networks.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Enterprise Security</h3>
+                    <p>Protect your data with military-grade encryption, two-factor authentication, and session logging.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>File Transfer</h3>
+                    <p>Easily move files between devices with our intuitive drag-and-drop interface and transfer manager.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>Multi-Monitor Support</h3>
+                    <p>Seamlessly work across multiple displays with full support for extended desktop configurations.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Session Sharing</h3>
+                    <p>Collaborate with colleagues by sharing your session with multiple participants simultaneously.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3>Custom Settings</h3>
+                    <p>Tailor your experience with extensive customization options for performance, security, and interface.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>How ConnectPro Desktop Works</h2>
+                <p>Get started in minutes with our simple setup process</p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Download & Install</h3>
+                        <p>Install ConnectPro Desktop on your computer in just a few clicks.</p>
+                    </div>
+                    <div class="step-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Create Your Account</h3>
+                        <p>Sign up for a free account or log in with your existing credentials.</p>
+                    </div>
+                    <div class="step-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Add Your Devices</h3>
+                        <p>Connect your computers to your account with a simple authorization process.</p>
+                    </div>
+                    <div class="step-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Connect Remotely</h3>
+                        <p>Access your devices from anywhere, anytime through our secure platform.</p>
+                    </div>
+                    <div class="step-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>Trusted by Professionals Worldwide</h2>
+                <p>See what our users are saying about ConnectPro Desktop</p>
+            </div>
+            
+            <div class="testimonials-slider">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"ConnectPro Desktop has revolutionized how our IT team provides support. The performance is unmatched, and the security features give us complete peace of mind."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://via.placeholder.com/60x60" alt="Sarah Johnson" class="author-image">
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>IT Director, Global Solutions Inc.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"As someone who works between multiple locations, ConnectPro Desktop has become an essential tool. I can access my work computer from anywhere with the same experience as sitting at my desk."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://via.placeholder.com/60x60" alt="Michael Chen" class="author-image">
+                        <div class="author-info">
+                            <h4>Michael Chen</h4>
+                            <p>Software Engineer, TechFusion</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The file transfer feature alone has saved our team countless hours. ConnectPro Desktop is simply the most reliable remote access solution we've ever used."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://via.placeholder.com/60x60" alt="Elena Rodriguez" class="author-image">
+                        <div class="author-info">
+                            <h4>Elena Rodriguez</h4>
+                            <p>Project Manager, Creative Studios</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-controls">
+                <button class="control-prev"><i class="fas fa-chevron-left"></i></button>
+                <div class="control-indicators">
+                    <span class="indicator active"></span>
+                    <span class="indicator"></span>
+                    <span class="indicator"></span>
+                </div>
+                <button class="control-next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>Choose the plan that fits your needs</p>
+            </div>
+            
+            <div class="pricing-toggle">
+                <span>Monthly</span>
+                <label class="switch">
+                    <input type="checkbox" id="pricing-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span>Annual <span class="save-badge">Save 20%</span></span>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Personal</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">0</span>
+                            <span class="period">/forever</span>
+                        </div>
+                        <p>For individual users</p>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Connect to 3 devices</li>
+                            <li><i class="fas fa-check"></i> Basic file transfer</li>
+                            <li><i class="fas fa-check"></i> Standard security</li>
+                            <li><i class="fas fa-check"></i> Community support</li>
+                            <li class="disabled"><i class="fas fa-times"></i> Multi-monitor support</li>
+                            <li class="disabled"><i class="fas fa-times"></i> Session recording</li>
+                            <li class="disabled"><i class="fas fa-times"></i> Priority support</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="#download" class="btn btn-outline btn-block">Download Free</a>
+                    </div>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Professional</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">12</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <p>For professionals and small teams</p>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Connect to unlimited devices</li>
+                            <li><i class="fas fa-check"></i> Advanced file transfer</li>
+                            <li><i class="fas fa-check"></i> Enhanced security</li>
+                            <li><i class="fas fa-check"></i> Email support</li>
+                            <li><i class="fas fa-check"></i> Multi-monitor support</li>
+                            <li><i class="fas fa-check"></i> Session recording</li>
+                            <li class="disabled"><i class="fas fa-times"></i> Priority support</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="#buy" class="btn btn-primary btn-block">Get Started</a>
+                    </div>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">29</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <p>For organizations and large teams</p>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Connect to unlimited devices</li>
+                            <li><i class="fas fa-check"></i> Advanced file transfer</li>
+                            <li><i class="fas fa-check"></i> Military-grade security</li>
+                            <li><i class="fas fa-check"></i> 24/7 support</li>
+                            <li><i class="fas fa-check"></i> Multi-monitor support</li>
+                            <li><i class="fas fa-check"></i> Session recording</li>
+                            <li><i class="fas fa-check"></i> Priority support</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="#contact" class="btn btn-outline btn-block">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find answers to common questions about ConnectPro Desktop</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is ConnectPro Desktop really free for personal use?</h3>
+                        <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, ConnectPro Desktop is completely free for personal use with up to 3 devices. You can use all the basic features without any time limitations.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How secure is ConnectPro Desktop?</h3>
+                        <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>ConnectPro Desktop uses end-to-end encryption with 256-bit AES technology. All connections are secured with TLS 1.3, and we offer additional security features like two-factor authentication and IP filtering.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Which operating systems are supported?</h3>
+                        <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>ConnectPro Desktop supports Windows 7/8/10/11, macOS 10.13 and newer, and major Linux distributions including Ubuntu, Debian, Fedora, and CentOS.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I use ConnectPro Desktop on multiple monitors?</h3>
+                        <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, ConnectPro Desktop Professional and Enterprise plans support multiple monitors. You can view and control all connected displays or focus on a specific monitor.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I upgrade from the free version?</h3>
+                        <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can upgrade directly within the ConnectPro Desktop application by clicking on the "Upgrade" button in the account section. You'll be guided through the process of selecting a plan and completing your purchase.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to experience ConnectPro Desktop?</h2>
+                <p>Download now and start connecting to your devices from anywhere.</p>
+                <div class="cta-buttons">
+                    <a href="#download" class="btn btn-primary btn-lg">
+                        <i class="fas fa-download"></i> Download Now
+                    </a>
+                    <a href="#contact" class="btn btn-outline btn-lg">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Same as main site) -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-logo">
+                <svg width="150" height="30" viewBox="0 0 180 40">
+                    <rect x="0" y="10" width="30" height="20" fill="#e74c3c" />
+                    <polygon points="30,10 40,20 30,30" fill="#e74c3c" />
+                    <text x="50" y="28" font-family="Arial" font-weight="bold" font-size="20" fill="#fff">ConnectPro</text>
+                </svg>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="#">ConnectPro Desktop</a></li>
+                        <li><a href="#">ConnectPro Mobile</a></li>
+                        <li><a href="#">ConnectPro Server</a></li>
+                        <li><a href="#">ConnectPro Secure</a></li>
+                        <li><a href="#">ConnectPro Team</a></li>
+                        <li><a href="#">ConnectPro API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Knowledge Base</a></li>
+                        <li><a href="#">Community Forum</a></li>
+                        <li><a href="#">Webinars</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">GDPR</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="container">
+                <p>&copy; 2025 ConnectPro. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple dark/light mode toggle
+        const modeToggle = document.getElementById('mode-toggle');
+        const toggleText = document.querySelector('.toggle-text');
+        
+        modeToggle.addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                toggleText.textContent = 'Dark Mode';
+            } else {
+                toggleText.textContent = 'Light Mode';
+            }
+        });
+        
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                item.classList.toggle('active');
+                const icon = item.querySelector('.faq-icon i');
+                
+                if (item.classList.contains('active')) {
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
+                } else {
+                    icon.classList.remove('fa-minus');
+                    icon.classList.add('fa-plus');
+                }
+            });
+        });
+        
+        // Pricing Toggle
+        const pricingToggle = document.getElementById('pricing-toggle');
+        const priceAmounts = document.querySelectorAll('.amount');
+        const monthlyPrices = [0, 12, 29];
+        const annualPrices = [0, 9.6, 23.2];
+        
+        pricingToggle.addEventListener('change', function() {
+            if (this.checked) {
+                // Annual pricing
+                priceAmounts.forEach((price, index) => {
+                    if (index > 0) {
+                        price.textContent = annualPrices[index];
+                    }
+                });
+            } else {
+                // Monthly pricing
+                priceAmounts.forEach((price, index) => {
+                    price.textContent = monthlyPrices[index];
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twingate - Go Beyond VPN</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+    --primary: #e9ff2e;
+    --primary-hover: #d4e82a;
+    --background: #0a0a0a;
+    --foreground: #ffffff;
+    --muted: #1a1a1a;
+    --muted-foreground: #a1a1a1;
+    --border: #2a2a2a;
+    --radius: 0.5rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--background);
+    color: var(--foreground);
+    line-height: 1.5;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.icon {
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: #000;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--border);
+    color: var(--foreground);
+}
+
+.btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-large {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+}
+
+.btn .icon {
+    margin-left: 0.5rem;
+}
+
+/* Announcement Bar */
+.announcement-bar {
+    background-color: #111;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.announcement-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.announcement-items {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.announcement-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+}
+
+.register-link {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
+
+/* Main Navigation */
+.main-nav {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-menu a {
+    font-size: 0.9375rem;
+    transition: color 0.2s ease;
+}
+
+.nav-menu a:hover {
+    color: var(--primary);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-link {
+    font-size: 0.9375rem;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--foreground);
+    cursor: pointer;
+}
+
+/* New Feature Banner */
+.new-feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 2rem 0;
+    padding: 0.5rem 1rem;
+    background-color: rgba(233, 255, 46, 0.1);
+    border-radius: 2rem;
+    font-size: 0.875rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.125rem 0.5rem;
+    background-color: var(--primary);
+    color: #000;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Hero Section */
+.hero {
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--muted-foreground);
+    max-width: 800px;
+    margin: 0 auto 2.5rem;
+}
+
+.hero-cta {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Terminal Section */
+.terminal-section {
+    padding: 3rem 0;
+}
+
+.terminal {
+    background-color: #000;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #333;
+}
+
+.terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.control.red {
+    background-color: #ff5f56;
+}
+
+.control.yellow {
+    background-color: #ffbd2e;
+}
+
+.control.green {
+    background-color: #27c93f;
+}
+
+.terminal-title {
+    margin-left: 1rem;
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+}
+
+.terminal-content {
+    padding: 1rem;
+    font-family: monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.terminal-line {
+    white-space: pre-wrap;
+}
+
+.prompt {
+    color: #64d2ff;
+}
+
+.error {
+    color: #ff5f56;
+}
+
+.terminal-sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #1a1a1a;
+    border-left: 1px solid #333;
+    padding: 1rem;
+    font-size: 0.875rem;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: #333;
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    color: var(--muted-foreground);
+}
+
+.sidebar-section h4 {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    margin-bottom: 0.75rem;
+}
+
+.sidebar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.sidebar-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.terminal-statusbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: #1a1a1a;
+    border-top: 1px solid #333;
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+}
+
+.statusbar-left, .statusbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Clients Section */
+.clients {
+    padding: 3rem 0;
+    border-top: 1px solid var(--border);
+}
+
+.client-logos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.client-logo {
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.client-logo:hover {
+    opacity: 1;
+}
+
+/* Footer */
+.footer {
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.footer-credit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .hero h1 {
+        font-size: 4rem;
+    }
+    
+    .terminal-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .announcement-items {
+        gap: 1rem;
+    }
+    
+    .nav-menu {
+        display: none;
+    }
+    
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .nav-right {
+        display: none;
+    }
+    
+    .hero h1 {
+        font-size: 3rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .client-logos {
+        justify-content: center;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .announcement-items {
+        display: none;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .terminal-statusbar {
+        display: none;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="container">
+            <div class="announcement-content">
+                <div class="announcement-items">
+                    <div class="announcement-item">
+                        <i class="icon" data-lucide="calendar"></i>
+                        <span>Twingate Office Hours</span>
+                    </div>
+                    <div class="announcement-item">
+                        <i class="icon" data-lucide="video"></i>
+                        <span>Live Workshop</span>
+                    </div>
+                    <div class="announcement-item">
+                        <i class="icon" data-lucide="calendar-days"></i>
+                        <span>Jan 23</span>
+                    </div>
+                </div>
+                <a href="#" class="register-link">
+                    Register
+                    <i class="icon" data-lucide="chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-content">
+                <div class="nav-left">
+                    <a href="#" class="logo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white"/>
+                            <path d="M2 17L12 22L22 17M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Twingate</span>
+                    </a>
+                    <ul class="nav-menu">
+                        <li><a href="#">Product</a></li>
+                        <li><a href="#">Docs</a></li>
+                        <li><a href="#">Customers</a></li>
+                        <li><a href="#">Resources</a></li>
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="nav-right">
+                    <a href="#" class="nav-link">Sign in</a>
+                    <a href="#" class="btn btn-outline">Request Demo</a>
+                    <a href="#" class="btn btn-primary">Try for Free</a>
+                </div>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- New Feature Banner -->
+    <div class="container">
+        <div class="new-feature">
+            <span class="badge">New</span>
+            <span>Twingate MSP Portal</span>
+            <i class="icon" data-lucide="chevron-right"></i>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Go Beyond VPN</h1>
+            <p class="hero-subtitle">
+                Keep private resources and internet traffic protected with Zero Trust<br>
+                security tools built for the modern world of work.
+            </p>
+            <div class="hero-cta">
+                <a href="#" class="btn btn-primary btn-large">
+                    Try Twingate for Free
+                    <i class="icon" data-lucide="chevron-right"></i>
+                </a>
+                <a href="#" class="btn btn-outline btn-large">
+                    Request a Demo
+                    <i class="icon" data-lucide="chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terminal Screenshot -->
+    <section class="terminal-section">
+        <div class="container">
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-controls">
+                        <span class="control red"></span>
+                        <span class="control yellow"></span>
+                        <span class="control green"></span>
+                    </div>
+                    <div class="terminal-title">alex – alex@alex-mbp</div>
+                </div>
+                <div class="terminal-content">
+                    <div class="terminal-line">
+                        <span class="prompt">alex@alex-mbp ~ $</span> ssh root@k8s.prod.autoco.int
+                    </div>
+                    <div class="terminal-line">
+                        <span class="prompt">></span> ssh root@k8s.prod.autoco.int
+                    </div>
+                    <div class="terminal-line">
+                        <span class="error">ssh: connection refused</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="prompt">alex@alex-mbp ~ $</span> ssh root@k8s.prod.autoco.int
+                    </div>
+                    <div class="terminal-line">
+                        Welcome to Kubernetes v1.21.1!
+                    </div>
+                    <div class="terminal-line">
+                        <span class="prompt">Type "help" for a list of commands.</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="prompt">root@prod-cluster:~$</span>
+                    </div>
+                </div>
+                <div class="terminal-sidebar">
+                    <div class="search-bar">
+                        <i class="icon" data-lucide="search"></i>
+                        <span>Search</span>
+                    </div>
+                    <div class="sidebar-section">
+                        <h4>FAVORITES</h4>
+                        <ul class="sidebar-list">
+                            <li><i class="icon" data-lucide="circle"></i> STG Cluster</li>
+                            <li><i class="icon" data-lucide="circle"></i> Prod Cluster</li>
+                            <li><i class="icon" data-lucide="circle"></i> Elastic</li>
+                            <li><i class="icon" data-lucide="circle"></i> Gitlab</li>
+                            <li><i class="icon" data-lucide="circle"></i> Jira</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="terminal-statusbar">
+                    <div class="statusbar-left">
+                        <i class="icon" data-lucide="apple"></i>
+                        <span>Finder</span>
+                        <span>Edit</span>
+                        <span>View</span>
+                        <span>Go</span>
+                        <span>Window</span>
+                        <span>Help</span>
+                    </div>
+                    <div class="statusbar-right">
+                        <i class="icon" data-lucide="zap"></i>
+                        <i class="icon" data-lucide="wifi"></i>
+                        <i class="icon" data-lucide="battery"></i>
+                        <span>Fri 2:55 PM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section class="clients">
+        <div class="container">
+            <div class="client-logos">
+                <img src="/placeholder.svg?height=30&width=120" alt="Charlotte Tilbury" class="client-logo">
+                <img src="/placeholder.svg?height=30&width=80" alt="Blend" class="client-logo">
+                <img src="/placeholder.svg?height=30&width=80" alt="PayU" class="client-logo">
+                <img src="/placeholder.svg?height=30&width=100" alt="Bitpanda" class="client-logo">
+                <img src="/placeholder.svg?height=30&width=100" alt="Breeze" class="client-logo">
+                <img src="/placeholder.svg?height=30&width=100" alt="Cameo" class="client-logo">
+                <img src="/placeholder.svg?height=30&width=80" alt="Built" class="client-logo">
+                <img src="/placeholder.svg?height=30&width=100" alt="Le Monde" class="client-logo">
+                <img src="/placeholder.svg?height=30&width=100" alt="Dailymotion" class="client-logo">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white"/>
+                        <path d="M2 17L12 22L22 17M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Twingate</span>
+                </div>
+                <div class="footer-credit">
+                    <span>curated by</span>
+                    <svg width="100" height="24" viewBox="0 0 100 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 2L2 10L10 18L18 10L10 2Z" fill="white"/>
+                        <path d="M30 2L22 10L30 18L38 10L30 2Z" fill="white"/>
+                        <path d="M50 2L42 10L50 18L58 10L50 2Z" fill="white"/>
+                        <text x="65" y="16" fill="white" font-family="Inter" font-size="14" font-weight="bold">Mobbin</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
